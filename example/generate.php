@@ -6,7 +6,7 @@ try {
   $parrotFile = __DIR__ . '/parrot.jpg';
   $flagFile = __DIR__ . '/flag.png';
 
-  // Create a new SimpleImage object
+  // Create a new Image object
   $image = new \Ryantxr\Image();
   // Manipulate it
   
