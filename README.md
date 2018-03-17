@@ -89,7 +89,7 @@ API tips:
 
 ### Constructor
 
-- `__construct($width=null, $height=null, $color='transparent')`
+#### `__construct($width=null, $height=null, $color='transparent')`
 
 Makes a new object. If width and height are supplied then an 
 underlying image resource will be created.
@@ -112,27 +112,13 @@ Loads an image from a file.
 
 Returns a Image object.
 
-#### `fromNew($width, $height, $color)`
-
-Creates a new image.
-
-- `$width`* (int) - The width of the image.
-- `$height`* (int) - The height of the image.
-- `$color` (string|array) - Optional fill color for the new image (default 'transparent').
-
-Returns a Image object.
-
-- `$width` (int) - The width of the image.
-- `$height` (int) - The height of the image.
-- `$color` (string|array) - Optional fill color for the new image (default 'transparent').
-
 #### `fromString($string)`
 
 Creates a new image from a string.
 
 - `$string`* (string) - The raw image data as a string. Example:
 
-  ```
+  ```php
   $string = file_get_contents('image.jpg');
   $obj = new \Blazecore\Image;
   $obj->fromString($string);
@@ -408,13 +394,15 @@ Returns a Image object.
 Draws a polygon.
 
 - `$vertices`* (array) - The polygon's vertices in an array of x/y arrays. Example:
-  ```
+
+  ```php
   [
     ['x' => x1, 'y' => y1],
     ['x' => x2, 'y' => y2],
     ['x' => xN, 'y' => yN]
   ]
   ```
+
 - `$color`* (string|array) - The polygon color.
 - `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
@@ -640,7 +628,7 @@ To check for specific errors, compare `$err->getCode()` to the defined error con
 ```php
 <?php
 try {
-  $image = new \claviska\Image();
+  $image = new \Blazecore\Image();
   $image->load('image.jpeg');
   // ...
 } catch(Exception $err) {
