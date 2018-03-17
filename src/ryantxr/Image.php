@@ -33,10 +33,18 @@ class Image {
 
     const Filled = 'filled';
 
+    const ColorWhite = 'white';
+    const ColorBlack = 'black';
+
     protected $image, $mimeType, $exif;
+    public $fonts = [];
+    
 
     /**
-     * 
+     * Create an Image object.
+     * @param int width
+     * @param int height
+     * @param color color (string | array)
      */
     public function __construct($width=null, $height=null, $color = 'transparent') {
         // Check for the required GD extension
@@ -913,7 +921,7 @@ class Image {
         if ( ! $box) {
             throw new \Exception("Unable to load font file: $fontFile", self::ERR_FONT_FILE);
         }
-        $boxWidth = abs($box[6] - $box[2]);
+        $boxWidth = abs($box[6] - $box[2] )+4;
         $boxHeight = $options['size'];
 
         // Determine cap height
@@ -970,10 +978,10 @@ class Image {
 
         // Pass the boundary back by reference
         $boundary = [
-            'x1' => $x,
-            'y1' => $y - $boxHeight, // $y is the baseline, not the top!
-            'x2' => $x + $boxWidth,
-            'y2' => $y,
+            'left' => $x,
+            'top' => $y - $boxHeight, // $y is the baseline, not the top!
+            'right' => $x + $boxWidth,
+            'bottom' => $y,
             'width' => $boxWidth,
             'height' => $boxHeight
         ];
@@ -1155,37 +1163,93 @@ class Image {
         return $this;
     }
 
-    //
-    // Draws an ellipse.
-    //
-    //  $x (int) - The x coordinate of the center.
-    //  $y (int) - The y coordinate of the center.
-    //  $width (int) - The ellipse width.
-    //  $height (int) - The ellipse height.
-    //  $color (string|array) - The ellipse color.
-    //  $thickness (int|string) - Line thickness in pixels or Image::Filled (default 1).
-    //
-    // @return object this
-    //
-    public function ellipse($x, $y, $width, $height, $color, $thickness = 1) {
+    /**
+     * Draws an ellipse.
+     * @param $x (int) - The x coordinate of the center.
+     * @param $y (int) - The y coordinate of the center.
+     * @param $width (int) - The ellipse width.
+     * @param $height (int) - The ellipse height.
+     * @param $color (string|array) - The ellipse color.
+     * @param $thickness (int|string) - Line thickness in pixels or Image::Filled (default 1).
+     * @return object this
+     */
+
+    public function ellipse($x, $y, $width, $height, $angle, $color, $thickness = 1) {
         // Allocate the color
         $color = $this->allocateColor($color);
-
+        $angle = $angle % 360;
         // Draw an ellipse
-        if ( $thickness === self::Filled ) {
-            imageSetThickness($this->image, 1);
-            imageFilledEllipse($this->image, $x, $y, $width, $height, $color);
-        } else {
-            // imageSetThickness doesn't appear to work with imageellipse, so we work around it.
-            imageSetThickness($this->image, 1);
-            $i = 0;
-            while($i++ < $thickness * 2 - 1) {
-                imageEllipse($this->image, $x, $y, --$width, $height--, $color);
+        if ( ($angle % 90) == 0 ) {
+            if ( $angle == 90 || $angle == 270 ) {
+                $swap = $width;
+                $width = $height;
+                $height = $swap;
             }
+            if ( $thickness === self::Filled ) {
+                imageSetThickness($this->image, 1);
+                imageFilledEllipse($this->image, $x, $y, $width, $height, $color);
+            } else {
+                // imageSetThickness doesn't appear to work with imageellipse, so we work around it.
+                imageSetThickness($this->image, 1);
+                $i = 0;
+                while($i++ < $thickness * 2 - 1) {
+                    imageEllipse($this->image, $x, $y, --$width, $height--, $color);
+                }
+            }
+        } else {
+            $filled = $thickness === self::Filled ? true : false;
+            $this->rotatedEllipse($x, $y, $width, $height, $angle, $color, $filled);
         }
 
         return $this;
     }
+
+    /**
+     * Internal function to draw a rotated ellipse.
+     */
+    private function rotatedEllipse($cx, $cy, $width, $height, $angle, $color, $filled=false) {
+        // modified here from nojer's version
+        // Rotates from the three o-clock position clockwise with increasing angle.
+        // Arguments are compatible with imageellipse.
+      
+        $width = $width/2;
+        $height = $height/2;
+      
+        // This affects how coarse the ellipse is drawn.
+        $step = 3;
+      
+        $cosangle = cos(deg2rad($angle));
+        $sinangle = sin(deg2rad($angle));
+      
+        // $px and $py are initialised to values corresponding to $angle=0.
+        $px = $width * $cosangle;
+        $py = $width * $sinangle;
+        
+        for ($angle=$step; $angle<=(180+$step); $angle+=$step) {
+          
+            $ox = $width * cos(deg2rad($angle));
+            $oy = $height * sin(deg2rad($angle));
+            
+            $x = ($ox * $cosangle) - ($oy * $sinangle);
+            $y = ($ox * $sinangle) + ($oy * $cosangle);
+      
+            if ( $filled ) {
+                $this->triangle($cx, $cy, $cx+$px, $cy+$py, $cx+$x, $cy+$y, $color);
+                $this->triangle($cx, $cy, $cx-$px, $cy-$py, $cx-$x, $cy-$y, $color);
+            } else {
+                imageLine($this->image, $cx+$px, $cy+$py, $cx+$x, $cy+$y, $color);
+                imageLine($this->image, $cx-$px, $cy-$py, $cx-$x, $cy-$y, $color);
+            }
+            $px = $x;
+            $py = $y;
+        }
+    }
+      
+    function triangle($x1, $y1, $x2, $y2, $x3, $y3, $color) {
+        $coords = array($x1, $y1, $x2, $y2, $x3, $y3);
+        imageFilledPolygon($this->image, $coords, 3, $color);
+    }
+
 
     //
     // Fills the entire image with a solid color.

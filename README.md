@@ -328,7 +328,7 @@ Adds text to the image.
      - `y` (int) - Vertical offset in pixels.
      - `color` (string|array) - The text shadow color.
  - `$boundary` (array) - If passed, this variable will contain an array with coordinates that
-  surround the text: [x1, y1, x2, y2, width, height]. This can be used for calculating the
+  surround the text: [left, top, right, bottom, width, height]. This can be used for calculating the
   text's position after it gets added to the image.
 
 Returns a Image object.
@@ -379,16 +379,17 @@ Draws a single pixel dot.
 
 Returns a Image object.
 
-#### `ellipse($x, $y, $width, $height, $color, $thickness)`
+#### `ellipse($x, $y, $width, $height, $angle, $color, $thickness)`
 
 Draws an ellipse.
 
-- `$x` (int) - The x coordinate of the center.
-- `$y` (int) - The y coordinate of the center.
-- `$width` (int) - The ellipse width.
-- `$height` (int) - The ellipse height.
-- `$color` (string|array) - The ellipse color.
-- `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
+- int `$x` - The x coordinate of the center.
+- int `$y` - The y coordinate of the center.
+- int `$width` - The ellipse width.
+- int `$height` - The ellipse height.
+- int `$angle` - rotation angle 0-360
+- string|array `$color` - The ellipse color.
+- int|string `$thickness` - Line thickness in pixels or 'filled' (default 1).
 
 Returns a Image object.
 
