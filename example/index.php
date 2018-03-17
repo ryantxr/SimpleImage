@@ -6,8 +6,8 @@ error_reporting(E_ALL & ~E_NOTICE);
 
 try {
   
-  $parrotFile = __DIR__ . '/parrot.jpg';
-  $flagFile = __DIR__ . '/flag.png';
+  $parrotFile = __DIR__ . '/files/parrot.jpg';
+  $flagFile = __DIR__ . '/files/flag.png';
 
   // Create a new SimpleImage object
   $image = new \Ryantxr\Image();

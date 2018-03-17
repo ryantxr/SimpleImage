@@ -31,6 +31,8 @@ class Image {
         ERR_WRITE = 11,
         ERR_OVERLAY = 12;
 
+    const Filled = 'filled';
+
     protected $image, $mimeType, $exif;
 
     /**
@@ -1095,7 +1097,7 @@ class Image {
     //  $start* (int) - The start of the arc in degrees.
     //  $end* (int) - The end of the arc in degrees.
     //  $color* (string|array) - The arc color.
-    //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
+    //  $thickness (int|string) - Line thickness in pixels or Image::Filled (default 1).
     //
     // @return object this
     //
@@ -1104,7 +1106,7 @@ class Image {
         $color = $this->allocateColor($color);
 
         // Draw an arc
-        if ( $thickness === 'filled') {
+        if ( $thickness === self::Filled ) {
             imageSetThickness($this->image, 1);
             imageFilledArc($this->image, $x, $y, $width, $height, $start, $end, $color, IMG_ARC_PIE);
         } else {
@@ -1118,7 +1120,7 @@ class Image {
     //
     // Draws a border around the image.
     //
-    //  $color* (string|array) - The border color.
+    //  $color (string|array) - The border color.
     //  $thickness (int) - The thickness of the border (default 1).
     //
     // @return object this
@@ -1140,9 +1142,9 @@ class Image {
     //
     // Draws a single pixel dot.
     //
-    //  $x* (int) - The x coordinate of the dot.
-    //  $y* (int) - The y coordinate of the dot.
-    //  $color* (string|array) - The dot color.
+    //  $x (int) - The x coordinate of the dot.
+    //  $y (int) - The y coordinate of the dot.
+    //  $color (string|array) - The dot color.
     //
     // @return object this
     //
@@ -1156,12 +1158,12 @@ class Image {
     //
     // Draws an ellipse.
     //
-    //  $x* (int) - The x coordinate of the center.
-    //  $y* (int) - The y coordinate of the center.
-    //  $width* (int) - The ellipse width.
-    //  $height* (int) - The ellipse height.
-    //  $color* (string|array) - The ellipse color.
-    //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
+    //  $x (int) - The x coordinate of the center.
+    //  $y (int) - The y coordinate of the center.
+    //  $width (int) - The ellipse width.
+    //  $height (int) - The ellipse height.
+    //  $color (string|array) - The ellipse color.
+    //  $thickness (int|string) - Line thickness in pixels or Image::Filled (default 1).
     //
     // @return object this
     //
@@ -1170,7 +1172,7 @@ class Image {
         $color = $this->allocateColor($color);
 
         // Draw an ellipse
-        if ( $thickness === 'filled') {
+        if ( $thickness === self::Filled ) {
             imageSetThickness($this->image, 1);
             imageFilledEllipse($this->image, $x, $y, $width, $height, $color);
         } else {
@@ -1186,7 +1188,7 @@ class Image {
     }
 
     //
-    // Fills the image with a solid color.
+    // Fills the entire image with a solid color.
     //
     //  $color (string|array) - The fill color.
     //
@@ -1194,7 +1196,7 @@ class Image {
     //
     public function fill($color) {
         // Draw a filled rectangle over the entire image
-        $this->rectangle(0, 0, $this->getWidth(), $this->getHeight(), 'white', 'filled');
+        $this->rectangle(0, 0, $this->getWidth(), $this->getHeight(), 'white', self::Filled);
 
         // Now flood it with the appropriate color
         $color = $this->allocateColor($color);
@@ -1206,10 +1208,10 @@ class Image {
     //
     // Draws a line.
     //
-    //  $x1* (int) - The x coordinate for the first point.
-    //  $y1* (int) - The y coordinate for the first point.
-    //  $x2* (int) - The x coordinate for the second point.
-    //  $y2* (int) - The y coordinate for the second point.
+    //  $x1 (int) - The x coordinate for the first point.
+    //  $y1 (int) - The y coordinate for the first point.
+    //  $x2 (int) - The x coordinate for the second point.
+    //  $y2 (int) - The y coordinate for the second point.
     //  $color (string|array) - The line color.
     //  $thickness (int) - The line thickness (default 1).
     //
@@ -1236,7 +1238,7 @@ class Image {
     //      ['x' => xN, 'y' => yN]
     //    ]
     //  $color* (string|array) - The polygon color.
-    //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
+    //  $thickness (int|string) - Line thickness in pixels or Image::Filled (default 1).
     //
     // @return object this
     //
@@ -1247,12 +1249,12 @@ class Image {
         // Convert [['x' => x1, 'y' => x1], ['x' => x1, 'y' => y2], ...] to [x1, y1, x2, y2, ...]
         $points = [];
         foreach($vertices as $vals) {
-        $points[] = $vals['x'];
-        $points[] = $vals['y'];
+            $points[] = $vals['x'];
+            $points[] = $vals['y'];
         }
 
         // Draw a polygon
-        if ( $thickness === 'filled') {
+        if ( $thickness === self::Filled ) {
             imageSetThickness($this->image, 1);
             imageFilledPolygon($this->image, $points, count($vertices), $color);
         } else {
@@ -1266,12 +1268,12 @@ class Image {
     //
     // Draws a rectangle.
     //
-    //  $x1* (int) - The upper left x coordinate.
-    //  $y1* (int) - The upper left y coordinate.
-    //  $x2* (int) - The bottom right x coordinate.
-    //  $y2* (int) - The bottom right y coordinate.
+    //  $x1 (int) - The upper left x coordinate.
+    //  $y1 (int) - The upper left y coordinate.
+    //  $x2 (int) - The bottom right x coordinate.
+    //  $y2 (int) - The bottom right y coordinate.
     //  $color* (string|array) - The rectangle color.
-    //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
+    //  $thickness (int|string) - Line thickness in pixels or self::Filled (default 1).
     //
     // @return object this
     //
@@ -1280,7 +1282,7 @@ class Image {
         $color = $this->allocateColor($color);
 
         // Draw a rectangle
-        if ( $thickness === 'filled') {
+        if ( $thickness === self::Filled ) {
             imageSetThickness($this->image, 1);
             imageFilledRectangle($this->image, $x1, $y1, $x2, $y2, $color);
         } else {
@@ -1294,27 +1296,27 @@ class Image {
     //
     // Draws a rounded rectangle.
     //
-    //  $x1* (int) - The upper left x coordinate.
-    //  $y1* (int) - The upper left y coordinate.
-    //  $x2* (int) - The bottom right x coordinate.
-    //  $y2* (int) - The bottom right y coordinate.
+    //  $x1 (int) - The upper left x coordinate.
+    //  $y1 (int) - The upper left y coordinate.
+    //  $x2 (int) - The bottom right x coordinate.
+    //  $y2 (int) - The bottom right y coordinate.
     //  $radius* (int) - The border radius in pixels.
     //  $color* (string|array) - The rectangle color.
-    //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
+    //  $thickness (int|string) - Line thickness in pixels or self::Filled (default 1).
     //
     // @return object this
     //
     public function roundedRectangle($x1, $y1, $x2, $y2, $radius, $color, $thickness = 1) {
-        if ( $thickness === 'filled') {
+        if ( $thickness === self::Filled) {
             // Draw the filled rectangle without edges
-            $this->rectangle($x1 + $radius + 1, $y1, $x2 - $radius - 1, $y2, $color, 'filled');
-            $this->rectangle($x1, $y1 + $radius + 1, $x1 + $radius, $y2 - $radius - 1, $color, 'filled');
-            $this->rectangle($x2 - $radius, $y1 + $radius + 1, $x2, $y2 - $radius - 1, $color, 'filled');
+            $this->rectangle($x1 + $radius + 1, $y1, $x2 - $radius - 1, $y2, $color, self::Filled);
+            $this->rectangle($x1, $y1 + $radius + 1, $x1 + $radius, $y2 - $radius - 1, $color, self::Filled);
+            $this->rectangle($x2 - $radius, $y1 + $radius + 1, $x2, $y2 - $radius - 1, $color, self::Filled);
             // Fill in the edges with arcs
-            $this->arc($x1 + $radius, $y1 + $radius, $radius * 2, $radius * 2, 180, 270, $color, 'filled');
-            $this->arc($x2 - $radius, $y1 + $radius, $radius * 2, $radius * 2, 270, 360, $color, 'filled');
-            $this->arc($x1 + $radius, $y2 - $radius, $radius * 2, $radius * 2, 90, 180, $color, 'filled');
-            $this->arc($x2 - $radius, $y2 - $radius, $radius * 2, $radius * 2, 360, 90, $color, 'filled');
+            $this->arc($x1 + $radius, $y1 + $radius, $radius * 2, $radius * 2, 180, 270, $color, self::Filled);
+            $this->arc($x2 - $radius, $y1 + $radius, $radius * 2, $radius * 2, 270, 360, $color, self::Filled);
+            $this->arc($x1 + $radius, $y2 - $radius, $radius * 2, $radius * 2, 90, 180, $color, self::Filled);
+            $this->arc($x2 - $radius, $y2 - $radius, $radius * 2, $radius * 2, 360, 90, $color, self::Filled);
         } else {
             // Draw the rectangle outline without edges
             $this->line($x1 + $radius, $y1, $x2 - $radius, $y1, $color, $thickness);
@@ -1371,7 +1373,7 @@ class Image {
     //
     // Applies the colorize filter.
     //
-    //  $color* (string|array) - The filter color.
+    //  $color (string|array) - The filter color.
     //
     // @return object this
     //
@@ -1393,7 +1395,7 @@ class Image {
     //
     // Applies the contrast filter.
     //
-    //  $percentage* (int) - Percentage to adjust (-100 - 100).
+    //  $percentage (int) - Percentage to adjust (-100 - 100).
     //
     // @return object this
     //
@@ -1406,7 +1408,7 @@ class Image {
     //
     // Applies the brightness filter to darken the image.
     //
-    //  $percentage* (int) - Percentage to darken the image (0 - 100).
+    //  $percentage (int) - Percentage to darken the image (0 - 100).
     //
     // @return object this
     //
@@ -1465,7 +1467,7 @@ class Image {
     //
     // Changes the image's opacity level.
     //
-    //  $opacity* (float) - The desired opacity level (0 - 1).
+    //  $opacity (float) - The desired opacity level (0 - 1).
     //
     // @return object this
     //
@@ -1583,11 +1585,11 @@ class Image {
     //
     // Adjusts a color by increasing/decreasing red/green/blue/alpha values independently.
     //
-    //  $color* (string|array) - The color to adjust.
-    //  $red* (int) - Red adjustment (-255 - 255).
-    //  $green* (int) - Green adjustment (-255 - 255).
-    //  $blue* (int) - Blue adjustment (-255 - 255).
-    //  $alpha* (float) - Alpha adjustment (-1 - 1).
+    //  $color (string|array) - The color to adjust.
+    //  $red (int) - Red adjustment (-255 - 255).
+    //  $green (int) - Green adjustment (-255 - 255).
+    //  $blue (int) - Blue adjustment (-255 - 255).
+    //  $alpha (float) - Alpha adjustment (-1 - 1).
     //
     // Returns an RGBA color array.
     //
@@ -1607,8 +1609,8 @@ class Image {
     //
     // Darkens a color.
     //
-    //  $color* (string|array) - The color to darken.
-    //  $amount* (int) - Amount to darken (0 - 255).
+    //  $color (string|array) - The color to darken.
+    //  $amount (int) - Amount to darken (0 - 255).
     //
     // Returns an RGBA color array.
     //
@@ -1664,8 +1666,8 @@ class Image {
     //
     // Gets the RGBA value of a single pixel.
     //
-    //  $x* (int) - The horizontal position of the pixel.
-    //  $y* (int) - The vertical position of the pixel.
+    //  $x (int) - The horizontal position of the pixel.
+    //  $y (int) - The vertical position of the pixel.
     //
     // Returns an RGBA color array or false if the x/y position is off the canvas.
     //
@@ -1686,8 +1688,8 @@ class Image {
     //
     // Lightens a color.
     //
-    //  $color* (string|array) - The color to lighten.
-    //  $amount* (int) - Amount to darken (0 - 255).
+    //  $color (string|array) - The color to lighten.
+    //  $amount (int) - Amount to darken (0 - 255).
     //
     // Returns an RGBA color array.
     //
@@ -1698,7 +1700,7 @@ class Image {
     //
     // Normalizes a hex or array color value to a well-formatted RGBA array.
     //
-    //  $color* (string|array) - A CSS color name, hex string, or an array [red, green, blue, alpha].
+    //  $color (string|array) - A CSS color name, hex string, or an array [red, green, blue, alpha].
     //    You can pipe alpha transparency through hex strings and color names. For example:
     //
     //      #fff|0.50 <-- 50% white
