@@ -87,6 +87,13 @@ API tips:
 - Colors can be a CSS color (e.g. `white`), a hex string (e.g. '#ffffff'), or an RGBA array.
 - You can pipe transparency to `normalizeColor` when you pass a CSS color or hex string: `white|0.25`
 
+### Constructor
+
+- `__construct($width=null, $height=null, $color='transparent')`
+
+Makes a new object. If width and height are supplied then an 
+underlying image resource will be created.
+
 ### Loaders
 
 #### `fromDataUri($uri)`
@@ -115,13 +122,20 @@ Creates a new image.
 
 Returns a Image object.
 
+- `$width` (int) - The width of the image.
+- `$height` (int) - The height of the image.
+- `$color` (string|array) - Optional fill color for the new image (default 'transparent').
+
 #### `fromString($string)`
 
 Creates a new image from a string.
 
 - `$string`* (string) - The raw image data as a string. Example:
+
   ```
   $string = file_get_contents('image.jpg');
+  $obj = new \Blazecore\Image;
+  $obj->fromString($string);
   ```
 
 Returns a Image object.
@@ -239,26 +253,6 @@ Crop the image.
 
 Returns a Image object.
 
-#### `fitToHeight($height)` (DEPRECATED)
-
-Proportionally resize the image to a specific height.
-
-_This method was deprecated in version 3.2.2 and will be removed in version 4.0. Please use `resize(null, $height)` instead._
-
-- `$height`* (int) - The height to resize the image to.
-
-Returns a Image object.
-
-#### `fitToWidth($width)`  (DEPRECATED)
-
-Proportionally resize the image to a specific width.
-
-_This method was deprecated in version 3.2.2 and will be removed in version 4.0. Please use `resize($width, null)` instead._
-
-- `$width`* (int) - The width to resize the image to.
-
-Returns a Image object.
-
 #### `flip($direction)`
 
 Flip the image horizontally or vertically.
@@ -339,7 +333,7 @@ Creates a thumbnail image. This function attempts to get the image as close to t
 
 Returns a Image object.
 
-###  Drawing
+### Drawing
 
 #### `arc($x, $y, $width, $height, $start, $end, $color, $thickness)`
 

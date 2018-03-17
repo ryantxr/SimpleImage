@@ -16,12 +16,12 @@
     {
       "name": "Cory LaViska",
       "homepage": "http://www.abeautifulsite.net/",
-      "role": "Developer"
+      "role": "Original developer"
     }
   ],
   "autoload": {
     "psr-0": {
-      "blazecore": "src/"
+      "Blazecore": "src/"
     }
   }
 }
