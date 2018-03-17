@@ -2,9 +2,6 @@
 
 A PHP class wrapper for GD image functions.
 
-Originally developed by [Cory LaViska](https://github.com/claviska).
-_Originally developed by [Cory LaViska](https://github.com/claviska)._
-
 
 ## Overview
 
@@ -16,7 +13,7 @@ try {
 
   // Magic! ✨
   $image
-    ->load('image.jpg')                     // load image.jpg
+    ->load('image.jpg')                         // load image.jpg
     ->autoOrient()                              // adjust orientation based on exif data
     ->resize(320, 200)                          // resize to 320x200 pixels
     ->flip('x')                                 // flip horizontally
@@ -721,3 +718,7 @@ As a best practice, always use the defined constants instead of their integers v
 - Switched from underscore_methods to camelCaseMethods.
 - Organized methods into groups based on function
 - Removed PHPDoc comments. At this time, I don't wish to incorporate them into the library.
+
+## Credits
+
+_Originally developed by [Cory LaViska](https://github.com/claviska)._
