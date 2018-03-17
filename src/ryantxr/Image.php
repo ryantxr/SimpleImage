@@ -28,7 +28,8 @@ class Image {
         ERR_LIB_NOT_LOADED = 8,
         ERR_UNSUPPORTED_FORMAT = 9,
         ERR_WEBP_NOT_ENABLED = 10,
-        ERR_WRITE = 11;
+        ERR_WRITE = 11,
+        ERR_OVERLAY = 12;
 
     protected $image, $mimeType, $exif;
 
@@ -67,6 +68,7 @@ class Image {
         } elseif ( $image) {
             $this->fromFile($image);
         }
+        return $this;
     }
 
     //
@@ -437,7 +439,7 @@ class Image {
             imageFilter($sourceImage, IMG_FILTER_COLORIZE, 0, 0, 0, 127 * ((100 - $percent) / 100));
         }
 
-        imageCopy($destinationImage, $sourceImage, $dstX, $dstY, $srcX, $srcY, $srcW, $srcH);
+        imageCopy($destinationImage, $sourceImage, $destinationX, $destinationY, $sourceX, $sourceY, $sourceW, $sourceH);
 
         return true;
     }
@@ -701,8 +703,13 @@ class Image {
     //
     public function overlay($overlay, $anchor = 'center', $opacity = 1, $xOffset = 0, $yOffset = 0) {
         // Load overlay image
-        if ( ! ($overlay instanceof Image) ) {
-            $overlay = new Image($overlay);
+        if ( is_string($overlay) ) {
+            $overlayObj = new Image();
+            $overlayObj->load($overlay);
+        } elseif ( $overlay instanceof Image ) {
+            $overlayObj = $overlay;
+        } else {
+            throw new \Exception("Overlay param 1 must be string or Image object", self::ERR_OVERLAY);
         }
 
         // Convert opacity
@@ -715,47 +722,47 @@ class Image {
             $y = $yOffset;
             break;
         case 'top right':
-            $x = $this->getWidth() - $overlay->getWidth() + $xOffset;
+            $x = $this->getWidth() - $overlayObj->getWidth() + $xOffset;
             $y = $yOffset;
             break;
         case 'top':
-            $x = ($this->getWidth() / 2) - ($overlay->getWidth() / 2) + $xOffset;
+            $x = ($this->getWidth() / 2) - ($overlayObj->getWidth() / 2) + $xOffset;
             $y = $yOffset;
             break;
         case 'bottom left':
             $x = $xOffset;
-            $y = $this->getHeight() - $overlay->getHeight() + $yOffset;
+            $y = $this->getHeight() - $overlayObj->getHeight() + $yOffset;
             break;
         case 'bottom right':
-            $x = $this->getWidth() - $overlay->getWidth() + $xOffset;
-            $y = $this->getHeight() - $overlay->getHeight() + $yOffset;
+            $x = $this->getWidth() - $overlayObj->getWidth() + $xOffset;
+            $y = $this->getHeight() - $overlayObj->getHeight() + $yOffset;
             break;
         case 'bottom':
-            $x = ($this->getWidth() / 2) - ($overlay->getWidth() / 2) + $xOffset;
-            $y = $this->getHeight() - $overlay->getHeight() + $yOffset;
+            $x = ($this->getWidth() / 2) - ($overlayObj->getWidth() / 2) + $xOffset;
+            $y = $this->getHeight() - $overlayObj->getHeight() + $yOffset;
             break;
         case 'left':
             $x = $xOffset;
-            $y = ($this->getHeight() / 2) - ($overlay->getHeight() / 2) + $yOffset;
+            $y = ($this->getHeight() / 2) - ($overlayObj->getHeight() / 2) + $yOffset;
             break;
         case 'right':
-            $x = $this->getWidth() - $overlay->getWidth() + $xOffset;
-            $y = ($this->getHeight() / 2) - ($overlay->getHeight() / 2) + $yOffset;
+            $x = $this->getWidth() - $overlayObj->getWidth() + $xOffset;
+            $y = ($this->getHeight() / 2) - ($overlayObj->getHeight() / 2) + $yOffset;
             break;
         default:
-            $x = ($this->getWidth() / 2) - ($overlay->getWidth() / 2) + $xOffset;
-            $y = ($this->getHeight() / 2) - ($overlay->getHeight() / 2) + $yOffset;
+            $x = ($this->getWidth() / 2) - ($overlayObj->getWidth() / 2) + $xOffset;
+            $y = ($this->getHeight() / 2) - ($overlayObj->getHeight() / 2) + $yOffset;
             break;
         }
 
         // Perform the overlay
         self::imageCopyMergeAlpha(
             $this->image,
-            $overlay->image,
+            $overlayObj->image,
             $x, $y,
             0, 0,
-            $overlay->getWidth(),
-            $overlay->getHeight(),
+            $overlayObj->getWidth(),
+            $overlayObj->getHeight(),
             $opacity
         );
 
