@@ -220,6 +220,24 @@ Gets the image's current width.
 
 Returns the width as an integer.
 
+#### `copyResized($fromImage, $toX, $toY, $toWidth, $toHeight, $fromX, $fromY, $fromWidth, $fromHeight)`
+
+  Copy another image on top this one.
+
+    Image fromImage
+    int toX - left of destination area
+    int toY - top of destination area
+    int toWidth - width of destination area
+    int toHeight - height of destination area
+    int fromX - left of source area
+    int fromY - top of source area
+    int fromWidth - width of source area
+    int fromHeight - height of source area
+
+#### `alphaBlending()`
+
+  Sets alpha blending 
+
 ### Manipulation
 
 #### `autoOrient()`

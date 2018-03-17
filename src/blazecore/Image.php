@@ -87,7 +87,7 @@ class Image {
     //
     //  $uri* (string) - A data URI.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function fromDataUri($uri) {
         // Basic formatting check
@@ -120,7 +120,7 @@ class Image {
     //
     //  $file* (string) - The image file to load.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function fromFile($file) {
         // Check if the file exists and is readable. We're using fopen() instead of file_exists()
@@ -181,36 +181,14 @@ class Image {
         return $this;
     }
 
-    //
-    // Creates a new image.
-    //
-    //  $width* (int) - The width of the image.
-    //  $height* (int) - The height of the image.
-    //  $color (string|array) - Optional fill color for the new image (default 'transparent').
-    //
-    // Returns a SimpleImage object.
-    //
-    public function fromNew($width, $height, $color = 'transparent') {
-        $this->image = imageCreateTrueColor($width, $height);
-
-        // Use PNG for dynamically created images because it's lossless and supports transparency
-        $this->mimeType = 'image/png';
-
-        // Fill the image with color
-        $this->fill($color);
-
-        return $this;
-    }
-
-    //
-    // Creates a new image from a string.
-    //
-    //  $string* (string) - The raw image data as a string. Example:
-    //
-    //    $string = file_get_contents('image.jpg');
-    //
-    // Returns a SimpleImage object.
-    //
+    /**
+     * Creates a new image from a string.
+     * Example:
+     * $string = file_get_contents('image.jpg');
+     * 
+     * @param string string - The raw image data as a string. 
+     * @return Image object.
+     */
     public function fromString($string) {
         return $this->fromFile('data://;base64,' . base64_encode($string));
     }
@@ -219,15 +197,14 @@ class Image {
     // Savers
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //
-    // Generates an image.
-    //
-    //  $mimeType (string) - The image format to output as a mime type (defaults to the original mime
-    //    type).
-    //  $quality (int) - Image quality as a percentage (default 100).
-    //
-    // Returns an array containing the image data and mime type.
-    //
+    /**
+     * Generates an image.
+     *
+     *  @param string $mimeType - The image format to output as a mime type (defaults to the original mime type).
+     *  @param int $quality - Image quality as a percentage (default 100).
+     *
+     * @return array containing the image data and mime type.
+     */
     private function generate($mimeType = null, $quality = 100) {
         // Format defaults to the original mime type
         $mimeType = $mimeType ?: $this->mimeType;
@@ -278,30 +255,27 @@ class Image {
         ];
     }
 
-    //
-    // Generates a data URI.
-    //
-    //  $mimeType (string) - The image format to output as a mime type (defaults to the original mime
-    //    type).
-    //  $quality (int) - Image quality as a percentage (default 100).
-    //
-    // Returns a string containing a data URI.
-    //
+    /**
+     * Generates a data URI.
+     *
+     * @param string mimeType - The image format to output as a mime type (defaults to the original mime type).
+     * @param int quality - Image quality as a percentage (default 100).
+     *
+     * @return string containing a data URI.
+     */
     public function toDataUri($mimeType = null, $quality = 100) {
         $image = $this->generate($mimeType, $quality);
 
         return 'data:' . $image['mimeType'] . ';base64,' . base64_encode($image['data']);
     }
 
-    //
-    // Forces the image to be downloaded to the clients machine. Must be called before any output is
-    // sent to the screen.
-    //
-    //  $filename* (string) - The filename (without path) to send to the client (e.g. 'image.jpeg').
-    //  $mimeType (string) - The image format to output as a mime type (defaults to the original mime
-    //    type).
-    //  $quality (int) - Image quality as a percentage (default 100).
-    //
+    /**
+     * Forces the image to be downloaded to the clients machine. Must be called before any output is sent to the screen.
+     * @param string filename - The filename (without path) to send to the client (e.g. 'image.jpeg').
+     * @param string mimeType - The image format to output as a mime type (defaults to the original mime type).
+     * @param int quality - Image quality as a percentage (default 100).
+     * @return object this
+     */
     public function toDownload($filename, $mimeType = null, $quality = 100) {
         $image = $this->generate($mimeType, $quality);
 
@@ -325,7 +299,7 @@ class Image {
     //    type).
     //  $quality (int) - Image quality as a percentage (default 100).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function toFile($file, $mimeType = null, $quality = 100) {
         $image = $this->generate($mimeType, $quality);
@@ -345,7 +319,7 @@ class Image {
     //    type).
     //  $quality (int) - Image quality as a percentage (default 100).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function toScreen($mimeType = null, $quality = 100) {
         $image = $this->generate($mimeType, $quality);
@@ -364,7 +338,7 @@ class Image {
     //    type).
     //  $quality (int) - Image quality as a percentage (default 100).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function toString($mimeType = null, $quality = 100) {
         return $this->generate($mimeType, $quality)['data'];
@@ -469,7 +443,18 @@ class Image {
     }
 
     /**
-     * Copy some other image onto this one.
+     * Copy some other image onto this one. Can copy parts of another area into this image.
+     * Specify different source and destination sizes to resize the image that is copied.
+     * @param Image fromImage
+     * @param int toX - left of destination area
+     * @param int toY - top of destination area
+     * @param int toWidth - width of destination area
+     * @param int toHeight - height of destination area
+     * @param int fromX - left of source area
+     * @param int fromY - top of source area
+     * @param int fromWidth - width of source area
+     * @param int fromHeight - height of source area
+     * @return object this
      */
     public function copyResized($fromImage, $toX, $toY, $toWidth, $toHeight, $fromX, $fromY, $fromWidth, $fromHeight) {
         @ImageCopyResized($this->image, $fromImage->image, $toX, $toY, $fromX, $fromY, $toWidth, $toHeight, $fromWidth, $fromHeight);
@@ -478,6 +463,7 @@ class Image {
 
     /**
      * Turn on alpha blending
+     * @return object this
      */
     public function alphaBlending() {
         imageAlphaBlending($this->image, true);
@@ -485,12 +471,12 @@ class Image {
         return $this;
     }
 
-    //
-    // Rotates an image so the orientation will be correct based on its exif data. It is safe to call
-    // this method on images that don't have exif data (no changes will be made).
-    //
-    // Returns a SimpleImage object.
-    //
+    /**
+     * Rotates an image so the orientation will be correct based on its exif data. It is safe to call
+     * this method on images that don't have exif data (no changes will be made).
+     *
+     * @return object this
+     */
     public function autoOrient() {
         $exif = $this->getExif();
 
@@ -533,7 +519,7 @@ class Image {
     //  $maxWidth* (int) - The maximum width the image can be.
     //  $maxHeight* (int) - The maximum height the image can be.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function bestFit($maxWidth, $maxHeight) {
         // If the image already fits, there's nothing to do
@@ -573,7 +559,7 @@ class Image {
     //  $x2 - Bottom right x coordinate.
     //  $y2 - Bottom right x coordinate.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function crop($x1, $y1, $x2, $y2) {
         // Keep crop within image dimensions
@@ -599,7 +585,7 @@ class Image {
     //  $lightColor* (string|array) - The lightest color in the duotone.
     //  $darkColor* (string|array) - The darkest color in the duotone.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     function duotone($lightColor, $darkColor) {
         $lightColor = self::normalizeColor($lightColor);
@@ -643,7 +629,7 @@ class Image {
     //
     //  $height* (int) - The height to resize the image to.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function fitToHeight($height) {
         return $this->resize(null, $height);
@@ -657,7 +643,7 @@ class Image {
     //
     //  $width* (int) - The width to resize the image to.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function fitToWidth($width) {
         return $this->resize($width, null);
@@ -668,7 +654,7 @@ class Image {
     //
     //  $direction* (string) - The direction to flip: x|y|both
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function flip($direction) {
         switch($direction) {
@@ -692,7 +678,7 @@ class Image {
     //  $max* (int) - The maximum number of colors to use.
     //  $dither (bool) - Whether or not to use a dithering effect (default true).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function maxColors($max, $dither = true) {
         imageTrueColorToPalette($this->image, $dither, max(1, $max));
@@ -711,7 +697,7 @@ class Image {
     //  $xOffset (int) - Horizontal offset in pixels (default 0).
     //  $yOffset (int) - Vertical offset in pixels (default 0).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function overlay($overlay, $anchor = 'center', $opacity = 1, $xOffset = 0, $yOffset = 0) {
         // Load overlay image
@@ -783,7 +769,7 @@ class Image {
     //  $width* (int) - The new image width.
     //  $height* (int) - The new image height.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function resize($width = null, $height = null) {
         // No dimentions specified
@@ -836,7 +822,7 @@ class Image {
     // $backgroundColor (string|array) - The background color to use for the uncovered zone area
     //   after rotation (default 'transparent').
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function rotate($angle, $backgroundColor = 'transparent') {
         // Rotate the image on a canvas with the desired background color
@@ -871,7 +857,7 @@ class Image {
     //    surround the text: [x1, y1, x2, y2, width, height]. This can be used for calculating the
     //    text's position after it gets added to the image.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function text($text, $options, &$boundary = null) {
         // Check for freetype support
@@ -1013,7 +999,7 @@ class Image {
     //  $anchor (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right', 'top left',
     //    'top right', 'bottom left', 'bottom right' (default 'center').
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function thumbnail($width, $height, $anchor = 'center') {
         // Determine aspect ratios
@@ -1104,7 +1090,7 @@ class Image {
     //  $color* (string|array) - The arc color.
     //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function arc($x, $y, $width, $height, $start, $end, $color, $thickness = 1) {
         // Allocate the color
@@ -1128,7 +1114,7 @@ class Image {
     //  $color* (string|array) - The border color.
     //  $thickness (int) - The thickness of the border (default 1).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function border($color, $thickness = 1) {
         $x1 = 0;
@@ -1151,7 +1137,7 @@ class Image {
     //  $y* (int) - The y coordinate of the dot.
     //  $color* (string|array) - The dot color.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function dot($x, $y, $color) {
         $color = $this->allocateColor($color);
@@ -1170,7 +1156,7 @@ class Image {
     //  $color* (string|array) - The ellipse color.
     //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function ellipse($x, $y, $width, $height, $color, $thickness = 1) {
         // Allocate the color
@@ -1197,7 +1183,7 @@ class Image {
     //
     //  $color (string|array) - The fill color.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function fill($color) {
         // Draw a filled rectangle over the entire image
@@ -1220,7 +1206,7 @@ class Image {
     //  $color (string|array) - The line color.
     //  $thickness (int) - The line thickness (default 1).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function line($x1, $y1, $x2, $y2, $color, $thickness = 1) {
         // Allocate the color
@@ -1245,7 +1231,7 @@ class Image {
     //  $color* (string|array) - The polygon color.
     //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function polygon($vertices, $color, $thickness = 1) {
         // Allocate the color
@@ -1280,7 +1266,7 @@ class Image {
     //  $color* (string|array) - The rectangle color.
     //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function rectangle($x1, $y1, $x2, $y2, $color, $thickness = 1) {
         // Allocate the color
@@ -1309,7 +1295,7 @@ class Image {
     //  $color* (string|array) - The rectangle color.
     //  $thickness (int|string) - Line thickness in pixels or 'filled' (default 1).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function roundedRectangle($x1, $y1, $x2, $y2, $radius, $color, $thickness = 1) {
         if ( $thickness === 'filled') {
@@ -1348,7 +1334,7 @@ class Image {
     //  $type (string) - The blur algorithm to use: 'selective', 'gaussian' (default 'gaussian').
     //  $passes (int) - The number of time to apply the filter, enhancing the effect (default 1).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function blur($type = 'selective', $passes = 1) {
         $filter = $type === 'gaussian' ? IMG_FILTER_GAUSSIAN_BLUR : IMG_FILTER_SELECTIVE_BLUR;
@@ -1365,7 +1351,7 @@ class Image {
     //
     //  $percentage* (int) - Percentage to brighten the image (0 - 100).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function brighten($percentage) {
         $percentage = self::keepWithin(255 * $percentage / 100, 0, 255);
@@ -1380,7 +1366,7 @@ class Image {
     //
     //  $color* (string|array) - The filter color.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function colorize($color) {
         $color = self::normalizeColor($color);
@@ -1402,7 +1388,7 @@ class Image {
     //
     //  $percentage* (int) - Percentage to adjust (-100 - 100).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function contrast($percentage) {
         imageFilter($this->image, IMG_FILTER_CONTRAST, self::keepWithin($percentage, -100, 100));
@@ -1415,7 +1401,7 @@ class Image {
     //
     //  $percentage* (int) - Percentage to darken the image (0 - 100).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function darken($percentage) {
         $percentage = self::keepWithin(255 * $percentage / 100, 0, 255);
@@ -1428,7 +1414,7 @@ class Image {
     //
     // Applies the desaturate (grayscale) filter.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function desaturate() {
         imageFilter($this->image, IMG_FILTER_GRAYSCALE);
@@ -1439,7 +1425,7 @@ class Image {
     //
     // Applies the edge detect filter.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function edgeDetect() {
         imageFilter($this->image, IMG_FILTER_EDGEDETECT);
@@ -1450,7 +1436,7 @@ class Image {
     //
     // Applies the emboss filter.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function emboss() {
         imageFilter($this->image, IMG_FILTER_EMBOSS);
@@ -1461,7 +1447,7 @@ class Image {
     //
     // Inverts the image's colors.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function invert() {
         imageFilter($this->image, IMG_FILTER_NEGATE);
@@ -1474,7 +1460,7 @@ class Image {
     //
     //  $opacity* (float) - The desired opacity level (0 - 1).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function opacity($opacity) {
         // Create a transparent image
@@ -1500,7 +1486,7 @@ class Image {
     //
     //  $size (int) - The size of the blocks in pixels (default 10).
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function pixelate($size = 10) {
         imageFilter($this->image, IMG_FILTER_PIXELATE, $size, true);
@@ -1511,7 +1497,7 @@ class Image {
     //
     // Simulates a sepia effect by desaturating the image and applying a sepia tone.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function sepia() {
         imageFilter($this->image, IMG_FILTER_GRAYSCALE);
@@ -1523,7 +1509,7 @@ class Image {
     //
     // Sharpens the image.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function sharpen() {
         $sharpen = [
@@ -1541,7 +1527,7 @@ class Image {
     //
     // Applies the mean remove filter to produce a sketch effect.
     //
-    // Returns a SimpleImage object.
+    // @return object this
     //
     public function sketch() {
         imageFilter($this->image, IMG_FILTER_MEAN_REMOVAL);
