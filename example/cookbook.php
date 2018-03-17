@@ -18,8 +18,9 @@ class cookbook {
             // Draw black rectangle
             $color = 'black';
             $image
-                ->rectangle(5, 5, 470, 240, $color, \Ryantxr\Image::Filled)
-                ->toFile($outputFile, 'image/png')  // output to file
+                ->rectangle(5, 5, 200, 120, $color, \Ryantxr\Image::Filled)
+                ->rectangle(205, 125, 400, 220, $color, 1)
+                ->toFile($outputFile, 'image/jpeg')  // output to file
             ;
         } catch(Exception $err) {
             // Handle errors
@@ -36,8 +37,9 @@ class cookbook {
             // Draw black rectangle
             $color = 'black';
             $image
-                ->roundedRectangle(5, 5, 470, 240, 8, $color)
-                ->toFile($outputFile, 'image/png')  // output to file
+                ->roundedRectangle(5, 5, 105, 115, 8, $color)
+                ->roundedRectangle(110, 125, 215, 235, 8, $color, \Ryantxr\Image::Filled)
+                ->toFile($outputFile, 'image/jpeg')  // output to file
             ;
         } catch(Exception $err) {
             // Handle errors
