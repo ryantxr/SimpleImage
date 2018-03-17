@@ -2,7 +2,6 @@
 
 A PHP class wrapper for GD image functions.
 
-
 ## Overview
 
 ```php
@@ -107,7 +106,7 @@ underlying image resource will be created.
 
 Loads an image from a data URI.
 
-- `$uri`* (string) - A data URI.
+- `$uri` (string) - A data URI.
 
 Returns a Image object.
 
@@ -285,7 +284,7 @@ Returns a Image object.
 
 Place an image on top of the current image.
 
- - `$overlay`* (string|Image) - The image to overlay. This can be a filename, a data URI, or a Image object.
+ - `$overlay` (string|Image) - The image to overlay. This can be a filename, a data URI, or a Image object.
  - `$anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right' (default 'center')
  - `$opacity` (float) - The opacity level of the overlay 0-1 (default 1).
  - `$xOffset` (int) - Horizontal offset in pixels (default 0).
@@ -306,7 +305,7 @@ Returns a Image object.
 
 Rotates the image.
 
- - `$angle`* (int) - The angle of rotation (-360 - 360).
+ - `$angle` (int) - The angle of rotation (-360 - 360).
  - `$backgroundColor` (string|array) - The background color to use for the uncovered zone area after rotation (default 'transparent').
 
 Returns a Image object.
@@ -317,7 +316,7 @@ Adds text to the image.
 
  - `$text` (string) - The desired text.
  - `$options` (array) - An array of options.
-   - `fontFile`* (string) - The TrueType (or compatible) font file to use.
+   - `fontFile` (string) - The TrueType (or compatible) font file to use.
    - `size` (int) - The size of the font in pixels (default 12).
    - `color` (string|array) - The text color (default black).
    - `anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right',
@@ -327,7 +326,7 @@ Adds text to the image.
    - `shadow` (array) - Text shadow params.
      - `x` (int) - Horizontal offset in pixels.
      - `y` (int) - Vertical offset in pixels.
-     - `color`* (string|array) - The text shadow color.
+     - `color` (string|array) - The text shadow color.
  - `$boundary` (array) - If passed, this variable will contain an array with coordinates that
   surround the text: [x1, y1, x2, y2, width, height]. This can be used for calculating the
   text's position after it gets added to the image.
@@ -418,7 +417,7 @@ Returns a Image object.
 
 Draws a polygon.
 
-- `$vertices`* (array) - The polygon's vertices in an array of x/y arrays. Example:
+- `$vertices` (array) - The polygon's vertices in an array of x/y arrays. Example:
 
   ```php
   [
@@ -428,7 +427,7 @@ Draws a polygon.
   ]
   ```
 
-- `$color`* (string|array) - The polygon color.
+- `$color` (string|array) - The polygon color.
 - `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
 Returns a Image object.
