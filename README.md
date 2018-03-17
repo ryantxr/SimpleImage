@@ -1,12 +1,9 @@
 # SimpleImage
 
-A PHP class that makes working with images as simple as possible.
+A PHP class wrapper for GD image functions.
 
-Developed and maintained by [Cory LaViska](https://github.com/claviska).
+_Originally developed by [Cory LaViska](https://github.com/claviska)._
 
-_If this project has you loving PHP image manipulation again, please consider making [a small donation](https://paypal.me/claviska) to support its development._
-
----
 
 ## Overview
 
@@ -14,11 +11,11 @@ _If this project has you loving PHP image manipulation again, please consider ma
 <?php
 try {
   // Create a new SimpleImage object
-  $image = new \claviska\SimpleImage();
+  $image = new \Blazecore\Image();
 
   // Magic! ✨
   $image
-    ->fromFile('image.jpg')                     // load image.jpg
+    ->load('image.jpg')                     // load image.jpg
     ->autoOrient()                              // adjust orientation based on exif data
     ->resize(320, 200)                          // resize to 320x200 pixels
     ->flip('x')                                 // flip horizontally

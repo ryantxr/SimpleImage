@@ -1,6 +1,6 @@
 {
-  "name": "claviska/simpleimage",
-  "description": "A PHP class that makes working with images as simple as possible.",
+  "name": "blazecore/php-image",
+  "description": "A PHP class wrapper for GD functions.",
   "license": "MIT",
   "require": {
     "php": ">=5.6.0",
@@ -9,6 +9,11 @@
   },
   "authors": [
     {
+      "name": "Ryan Teixeira",
+      "homepage": "http://www.blazecore.com/",
+      "role": "Developer"
+    },
+    {
       "name": "Cory LaViska",
       "homepage": "http://www.abeautifulsite.net/",
       "role": "Developer"
@@ -16,7 +21,7 @@
   ],
   "autoload": {
     "psr-0": {
-      "claviska": "src/"
+      "blazecore": "src/"
     }
   }
 }
