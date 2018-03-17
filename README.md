@@ -1,7 +1,8 @@
-# SimpleImage
+# Blazecore Image
 
 A PHP class wrapper for GD image functions.
 
+Originally developed by [Cory LaViska](https://github.com/claviska).
 _Originally developed by [Cory LaViska](https://github.com/claviska)._
 
 
@@ -10,7 +11,7 @@ _Originally developed by [Cory LaViska](https://github.com/claviska)._
 ```php
 <?php
 try {
-  // Create a new SimpleImage object
+  // Create a new Image object
   $image = new \Blazecore\Image();
 
   // Magic! ✨
@@ -58,23 +59,15 @@ try {
 Install with Composer:
 
 ```
-composer require claviska/simpleimage
+composer require ryantxr/php-image
 ```
 
 Or include the library manually:
 
 ```php
 <?php
-require 'src/claviska/SimpleImage.php';
+require 'src/Blazecore/Image.php';
 ```
-
-## About
-
-SimpleImage is developed and maintained by [Cory LaViska](https://github.com/claviska). Copyright A Beautiful Site, LLC.
-
-Contributions are appreciated! If you enjoy using SimpleImage, especially in commercial applications, please consider [making a contribution](https://paypal.me/claviska) to support its development.
-
-Thanks! 🙌
 
 ## License
 
@@ -91,9 +84,9 @@ Order of awesomeness:
 API tips:
 
 - An asterisk denotes a required argument.
-- Methods that return a SimpleImage object are chainable.
+- Methods that return a Image object are chainable.
 - You can pass a file or data URI to the constructor to avoid calling `fromFile` or `fromDataUri`.
-- Static methods can be called with `$image::methodName()` or `\claviska\SimpleImage::methodName()`.
+- Static methods can be called with `$image::methodName()` or `\Blazecore\Image::methodName()`.
 - Colors can be a CSS color (e.g. `white`), a hex string (e.g. '#ffffff'), or an RGBA array.
 - You can pipe transparency to `normalizeColor` when you pass a CSS color or hex string: `white|0.25`
 
@@ -105,7 +98,7 @@ Loads an image from a data URI.
 
 - `$uri`* (string) - A data URI.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `fromFile($file)`
 
@@ -113,7 +106,7 @@ Loads an image from a file.
 
 - `$file`* (string) - The image file to load.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `fromNew($width, $height, $color)`
 
@@ -123,7 +116,7 @@ Creates a new image.
 - `$height`* (int) - The height of the image.
 - `$color` (string|array) - Optional fill color for the new image (default 'transparent').
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `fromString($string)`
 
@@ -134,7 +127,7 @@ Creates a new image from a string.
   $string = file_get_contents('image.jpg');
   ```
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 ### Savers
 
@@ -155,7 +148,7 @@ Forces the image to be downloaded to the clients machine. Must be called before 
 - `$mimeType` (string) - The image format to output as a mime type (defaults to the original mime type).
 - `$quality` (int) - Image quality as a percentage (default 100).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `toFile($file, $mimeType, $quality)`
 
@@ -164,7 +157,7 @@ Writes the image to a file.
 - `$mimeType` (string) - The image format to output as a mime type (defaults to the original mime type).
 - `$quality` (int) - Image quality as a percentage (default 100).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `toScreen($mimeType, $quality)`
 
@@ -173,7 +166,7 @@ Outputs the image to the screen. Must be called before any output is sent to the
 - `$mimeType` (string) - The image format to output as a mime type (defaults to the original mime type).
 - `$quality` (int) - Image quality as a percentage (default 100).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `toString($mimeType, $quality)`
 
@@ -182,7 +175,7 @@ Generates an image string.
 - `$mimeType` (string) - The image format to output as a mime type (defaults to the original mime type).
 - `$quality` (int) - Image quality as a percentage (default 100).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 ### Utilities
 
@@ -227,7 +220,7 @@ Returns the width as an integer.
 #### `autoOrient()`
 
 Rotates an image so the orientation will be correct based on its exif data. It is safe to call this method on images that don't have exif data (no changes will be made).
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `bestFit($maxWidth, $maxHeight)`
 
@@ -236,7 +229,7 @@ Proportionally resize the image to fit inside a specific width and height.
 - `$maxWidth`* (int) - The maximum width the image can be.
 - `$maxHeight`* (int) - The maximum height the image can be.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `crop($x1, $y1, $x2, $y2)`
 
@@ -247,7 +240,7 @@ Crop the image.
 - $x2 - Bottom right x coordinate.
 - $y2 - Bottom right x coordinate.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `fitToHeight($height)` (DEPRECATED)
 
@@ -257,7 +250,7 @@ _This method was deprecated in version 3.2.2 and will be removed in version 4.0.
 
 - `$height`* (int) - The height to resize the image to.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `fitToWidth($width)`  (DEPRECATED)
 
@@ -267,7 +260,7 @@ _This method was deprecated in version 3.2.2 and will be removed in version 4.0.
 
 - `$width`* (int) - The width to resize the image to.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `flip($direction)`
 
@@ -275,7 +268,7 @@ Flip the image horizontally or vertically.
 
 - `$direction`* (string) - The direction to flip: x|y|both
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `maxColors($max, $dither)`
 
@@ -284,19 +277,19 @@ Reduces the image to a maximum number of colors.
 - `$max`* (int) - The maximum number of colors to use.
 - `$dither` (bool) - Whether or not to use a dithering effect (default true).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `overlay($overlay, $anchor, $opacity, $xOffset, $yOffset)`
 
 Place an image on top of the current image.
 
-- `$overlay`* (string|SimpleImage) - The image to overlay. This can be a filename, a data URI, or a SimpleImage object.
+- `$overlay`* (string|Image) - The image to overlay. This can be a filename, a data URI, or a Image object.
 - `$anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right' (default 'center')
 - `$opacity` (float) - The opacity level of the overlay 0-1 (default 1).
 - `$xOffset` (int) - Horizontal offset in pixels (default 0).
 - `$yOffset` (int) - Vertical offset in pixels (default 0).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `resize($width, $height)`
 
@@ -305,7 +298,7 @@ Resize an image to the specified dimensions. If only one dimension is specified,
 - `$width`* (int) - The new image width.
 - `$height`* (int) - The new image height.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `rotate($angle, $backgroundColor)`
 
@@ -314,7 +307,7 @@ Rotates the image.
 - `$angle`* (int) - The angle of rotation (-360 - 360).
 - `$backgroundColor` (string|array) - The background color to use for the uncovered zone area after rotation (default 'transparent').
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `text($text, $options, &$boundary)`
 
@@ -337,7 +330,7 @@ Adds text to the image.
   surround the text: [x1, y1, x2, y2, width, height]. This can be used for calculating the
   text's position after it gets added to the image.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `thumbnail($width, $height, $anchor)`
 
@@ -347,7 +340,7 @@ Creates a thumbnail image. This function attempts to get the image as close to t
 - `$height`* (int) - The thumbnail height.
 - `$anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right' (default 'center').
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 ###  Drawing
 
@@ -364,7 +357,7 @@ Draws an arc.
 - `$color`* (string|array) - The arc color.
 - `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `border($color, $thickness)`
 
@@ -373,7 +366,7 @@ Draws a border around the image.
 - `$color`* (string|array) - The border color.
 - `$thickness` (int) - The thickness of the border (default 1).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `dot($x, $y, $color)`
 
@@ -383,7 +376,7 @@ Draws a single pixel dot.
 - `$y`* (int) - The y coordinate of the dot.
 - `$color`* (string|array) - The dot color.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `ellipse($x, $y, $width, $height, $color, $thickness)`
 
@@ -396,7 +389,7 @@ Draws an ellipse.
 - `$color`* (string|array) - The ellipse color.
 - `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `fill($color)`
 
@@ -404,7 +397,7 @@ Fills the image with a solid color.
 
 - `$color` (string|array) - The fill color.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `line($x1, $y1, $x2, $y2, $color, $thickness)`
 
@@ -417,7 +410,7 @@ Draws a line.
 - `$color` (string|array) - The line color.
 - `$thickness` (int) - The line thickness (default 1).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `polygon($vertices, $color, $thickness)`
 
@@ -434,7 +427,7 @@ Draws a polygon.
 - `$color`* (string|array) - The polygon color.
 - `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `rectangle($x1, $y1, $x2, $y2, $color, $thickness)`
 
@@ -447,7 +440,7 @@ Draws a rectangle.
 - `$color`* (string|array) - The rectangle color.
 - `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `roundedRectangle($x1, $y1, $x2, $y2, $radius, $color, $thickness)`
 
@@ -461,7 +454,7 @@ Draws a rounded rectangle.
 - `$color`* (string|array) - The rectangle color.
 - `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 ### Filters
 
@@ -472,7 +465,7 @@ Applies the blur filter.
 - `$type` (string) - The blur algorithm to use: 'selective', 'gaussian' (default 'gaussian').
 - `$passes` (int) - The number of time to apply the filter, enhancing the effect (default 1).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `brighten($percentage)`
 
@@ -480,7 +473,7 @@ Applies the brightness filter to brighten the image.
 
 - `$percentage`* (int) - Percentage to brighten the image (0 - 100).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `colorize($color)`
 
@@ -488,7 +481,7 @@ Applies the colorize filter.
 
 - `$color`* (string|array) - The filter color.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `contrast($percentage)`
 
@@ -496,7 +489,7 @@ Applies the contrast filter.
 
 - `$percentage`* (int) - Percentage to adjust (-100 - 100).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `darken($percentage)`
 
@@ -504,13 +497,13 @@ Applies the brightness filter to darken the image.
 
 - `$percentage`* (int) - Percentage to darken the image (0 - 100).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `desaturate()`
 
 Applies the desaturate (grayscale) filter.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `duotone($lightColor, $darkColor)`
 
@@ -519,25 +512,25 @@ Applies the duotone filter to the image.
 - `$lightColor`* (string|array) - The lightest color in the duotone.
 - `$darkColor`* (string|array) - The darkest color in the duotone.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `edgeDetect()`
 
 Applies the edge detect filter.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `emboss()`
 
 Applies the emboss filter.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `invert()`
 
 Inverts the image's colors.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `opacity()`
 
@@ -545,7 +538,7 @@ Changes the image's opacity level.
 
 - `$opacity`* (float) - The desired opacity level (0 - 1).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `pixelate($size)`
 
@@ -553,25 +546,25 @@ Applies the pixelate filter.
 
 - `$size` (int) - The size of the blocks in pixels (default 10).
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `sepia()`
 
 Simulates a sepia effect by desaturating the image and applying a sepia tone.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `sharpen()`
 
 Sharpens the image.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 #### `sketch()`
 
 Applies the mean remove filter to produce a sketch effect.
 
-Returns a SimpleImage object.
+Returns a Image object.
 
 ### Color utilities
 
@@ -638,12 +631,13 @@ Returns an array: [red, green, blue, alpha]
 
 ### Exceptions
 
-SimpleImage throws standard exceptions when things go wrong. You should always use a try/catch block around your code to properly handle them.
+Image throws standard exceptions when things go wrong. You should always use a try/catch block around your code to properly handle them.
 
 ```php
 <?php
 try {
-  $image = new \claviska\SimpleImage('image.jpeg')
+  $image = new \Blazecore\Image();
+  $image->load('image.jpeg');
   // ...
 } catch(Exception $err) {
   echo $err->getMessage();
@@ -655,7 +649,8 @@ To check for specific errors, compare `$err->getCode()` to the defined error con
 ```php
 <?php
 try {
-  $image = new \claviska\SimpleImage('image.jpeg')
+  $image = new \claviska\Image();
+  $image->load('image.jpeg');
   // ...
 } catch(Exception $err) {
   if($err->getCode() === $image::ERR_FILE_NOT_FOUND) {
@@ -684,9 +679,9 @@ As a best practice, always use the defined constants instead of their integers v
 
 - Color arguments can be a CSS color name (e.g. `LightBlue`), a hex color string (e.g. `#0099dd`), or an RGB(A) array (e.g. `['red' => 255, 'green' => 0, 'blue' => 0, 'alpha' => 1]`).
 
-- When `$thickness` > 1, GD draws lines of the desired thickness from the center origin. For example, a rectangle drawn at [10, 10, 20, 20] with a thickness of 3 will actually be draw at [9, 9, 21, 21]. This is true for all shapes and is not a bug in the SimpleImage library.
+- When `$thickness` > 1, GD draws lines of the desired thickness from the center origin. For example, a rectangle drawn at [10, 10, 20, 20] with a thickness of 3 will actually be draw at [9, 9, 21, 21]. This is true for all shapes and is not a bug in the Image library.
 
-## Differences from SimpleImage 2.x
+## Differences from Image 2.x
 
 - Normalized color arguments (colors can be a CSS color name, hex color, or RGB(A) array).
 - Normalized alpha (opacity) arguments: 0 (transparent) - 1 (opaque)
