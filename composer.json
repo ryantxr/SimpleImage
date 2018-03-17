@@ -1,5 +1,5 @@
 {
-  "name": "blazecore/php-image",
+  "name": "ryantxr/php-image",
   "description": "A PHP class wrapper for GD functions.",
   "license": "MIT",
   "require": {
@@ -21,7 +21,7 @@
   ],
   "autoload": {
     "psr-0": {
-      "Blazecore": "src/"
+      "Ryantxr": "src/"
     }
   }
 }

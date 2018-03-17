@@ -1,4 +1,4 @@
-# Blazecore Image
+# PHP Image by ryantxr
 
 A PHP class wrapper for GD image functions.
 
@@ -9,7 +9,7 @@ A PHP class wrapper for GD image functions.
 <?php
 try {
   // Create a new Image object
-  $image = new \Blazecore\Image();
+  $image = new \Ryantxr\Image();
 
   // Magic! ✨
   $image
@@ -63,7 +63,7 @@ Or include the library manually:
 
 ```php
 <?php
-require 'src/Blazecore/Image.php';
+require 'src/Ryantxr/Image.php';
 ```
 
 ## License
@@ -80,10 +80,9 @@ Order of awesomeness:
 
 API tips:
 
-- An asterisk denotes a required argument.
 - Methods that return a Image object are chainable.
 - You can pass a file or data URI to the constructor to avoid calling `fromFile` or `fromDataUri`.
-- Static methods can be called with `$image::methodName()` or `\Blazecore\Image::methodName()`.
+- Static methods can be called with `$image::methodName()` or `\Ryantxr\Image::methodName()`.
 - Colors can be a CSS color (e.g. `white`), a hex string (e.g. '#ffffff'), or an RGBA array.
 - You can pipe transparency to `normalizeColor` when you pass a CSS color or hex string: `white|0.25`
 
@@ -96,10 +95,10 @@ underlying image resource will be created.
 
 ```php
   // make an empty object
-  $object = new \Blazecore\Image;
+  $object = new \Ryantxr\Image;
 
   // make a blank image of with certain dimensions
-  $object = new \Blazecore\Image(600, 400); // width=600, height=600
+  $object = new \Ryantxr\Image(600, 400); // width=600, height=600
 ```
 
 ### Loaders
@@ -128,7 +127,7 @@ Creates a new image from a string.
 
   ```php
   $string = file_get_contents('image.jpg');
-  $obj = new \Blazecore\Image;
+  $obj = new \Ryantxr\Image;
   $obj->fromString($string);
   ```
 
@@ -224,15 +223,15 @@ Returns the width as an integer.
 
   Copy another image on top this one.
 
-    Image fromImage
-    int toX - left of destination area
-    int toY - top of destination area
-    int toWidth - width of destination area
-    int toHeight - height of destination area
-    int fromX - left of source area
-    int fromY - top of source area
-    int fromWidth - width of source area
-    int fromHeight - height of source area
+    `$fromImage` Image - other to copy from
+    `$toX` int - left of destination area
+    `$toY` int - top of destination area
+    `$toWidth` int - width of destination area
+    `$toHeight` int - height of destination area
+    `$fromX` int - left of source area
+    `$fromY` int - top of source area
+    `$fromWidth` int - width of source area
+    `$fromHeight` int - height of source area
 
 #### `alphaBlending()`
 
@@ -249,8 +248,8 @@ Returns a Image object.
 
 Proportionally resize the image to fit inside a specific width and height.
 
-- `$maxWidth`* (int) - The maximum width the image can be.
-- `$maxHeight`* (int) - The maximum height the image can be.
+  `$maxWidth` (int) - The maximum width the image can be.
+  `$maxHeight` (int) - The maximum height the image can be.
 
 Returns a Image object.
 
@@ -258,10 +257,10 @@ Returns a Image object.
 
 Crop the image.
 
-- $x1 - Top left x coordinate.
-- $y1 - Top left y coordinate.
-- $x2 - Bottom right x coordinate.
-- $y2 - Bottom right x coordinate.
+  `$x1` - Top left x coordinate.
+  `$y1` - Top left y coordinate.
+  `$x2` - Bottom right x coordinate.
+  `$y2` - Bottom right x coordinate.
 
 Returns a Image object.
 
@@ -269,7 +268,7 @@ Returns a Image object.
 
 Flip the image horizontally or vertically.
 
-- `$direction`* (string) - The direction to flip: x|y|both
+  `$direction` (string) - The direction to flip: x|y|both
 
 Returns a Image object.
 
@@ -277,8 +276,8 @@ Returns a Image object.
 
 Reduces the image to a maximum number of colors.
 
-- `$max`* (int) - The maximum number of colors to use.
-- `$dither` (bool) - Whether or not to use a dithering effect (default true).
+  `$max`* (int) - The maximum number of colors to use.
+  `$dither` (bool) - Whether or not to use a dithering effect (default true).
 
 Returns a Image object.
 
@@ -286,11 +285,11 @@ Returns a Image object.
 
 Place an image on top of the current image.
 
-- `$overlay`* (string|Image) - The image to overlay. This can be a filename, a data URI, or a Image object.
-- `$anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right' (default 'center')
-- `$opacity` (float) - The opacity level of the overlay 0-1 (default 1).
-- `$xOffset` (int) - Horizontal offset in pixels (default 0).
-- `$yOffset` (int) - Vertical offset in pixels (default 0).
+  `$overlay`* (string|Image) - The image to overlay. This can be a filename, a data URI, or a Image object.
+  `$anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right' (default 'center')
+  `$opacity` (float) - The opacity level of the overlay 0-1 (default 1).
+  `$xOffset` (int) - Horizontal offset in pixels (default 0).
+  `$yOffset` (int) - Vertical offset in pixels (default 0).
 
 Returns a Image object.
 
@@ -298,8 +297,8 @@ Returns a Image object.
 
 Resize an image to the specified dimensions. If only one dimension is specified, the image will be resized proportionally.
 
-- `$width`* (int) - The new image width.
-- `$height`* (int) - The new image height.
+  `$width`* (int) - The new image width.
+  `$height`* (int) - The new image height.
 
 Returns a Image object.
 
@@ -307,8 +306,8 @@ Returns a Image object.
 
 Rotates the image.
 
-- `$angle`* (int) - The angle of rotation (-360 - 360).
-- `$backgroundColor` (string|array) - The background color to use for the uncovered zone area after rotation (default 'transparent').
+  `$angle`* (int) - The angle of rotation (-360 - 360).
+  `$backgroundColor` (string|array) - The background color to use for the uncovered zone area after rotation (default 'transparent').
 
 Returns a Image object.
 
@@ -316,20 +315,20 @@ Returns a Image object.
 
 Adds text to the image.
 
-- `$text*` (string) - The desired text.
-- `$options` (array) - An array of options.
-  - `fontFile`* (string) - The TrueType (or compatible) font file to use.
-  - `size` (int) - The size of the font in pixels (default 12).
-  - `color` (string|array) - The text color (default black).
-  - `anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right',
+  `$text*` (string) - The desired text.
+  `$options` (array) - An array of options.
+    `fontFile`* (string) - The TrueType (or compatible) font file to use.
+    `size` (int) - The size of the font in pixels (default 12).
+    `color` (string|array) - The text color (default black).
+    `anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right',
     'top left', 'top right', 'bottom left', 'bottom right' (default 'center').
-  - `xOffset` (int) - The horizontal offset in pixels (default 0).
-  - `yOffset` (int) - The vertical offset in pixels (default 0).
-  - `shadow` (array) - Text shadow params.
-    - `x`* (int) - Horizontal offset in pixels.
-    - `y`* (int) - Vertical offset in pixels.
-    - `color`* (string|array) - The text shadow color.
-- `$boundary` (array) - If passed, this variable will contain an array with coordinates that
+    `xOffset` (int) - The horizontal offset in pixels (default 0).
+    `yOffset` (int) - The vertical offset in pixels (default 0).
+    `shadow` (array) - Text shadow params.
+      `x`* (int) - Horizontal offset in pixels.
+      `y`* (int) - Vertical offset in pixels.
+      `color`* (string|array) - The text shadow color.
+  `$boundary` (array) - If passed, this variable will contain an array with coordinates that
   surround the text: [x1, y1, x2, y2, width, height]. This can be used for calculating the
   text's position after it gets added to the image.
 
@@ -339,9 +338,9 @@ Returns a Image object.
 
 Creates a thumbnail image. This function attempts to get the image as close to the provided dimensions as possible, then crops the remaining overflow to force the desired size. Useful for generating thumbnail images.
 
-- `$width`* (int) - The thumbnail width.
-- `$height`* (int) - The thumbnail height.
-- `$anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right' (default 'center').
+  `$width`* (int) - The thumbnail width.
+  `$height`* (int) - The thumbnail height.
+  `$anchor` (string) - The anchor point: 'center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right' (default 'center').
 
 Returns a Image object.
 
@@ -351,14 +350,14 @@ Returns a Image object.
 
 Draws an arc.
 
-- `$x`* (int) - The x coordinate of the arc's center.
-- `$y`* (int) - The y coordinate of the arc's center.
-- `$width`* (int) - The width of the arc.
-- `$height`* (int) - The height of the arc.
-- `$start`* (int) - The start of the arc in degrees.
-- `$end`* (int) - The end of the arc in degrees.
-- `$color`* (string|array) - The arc color.
-- `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
+  `$x`* (int) - The x coordinate of the arc's center.
+  `$y`* (int) - The y coordinate of the arc's center.
+  `$width`* (int) - The width of the arc.
+  `$height`* (int) - The height of the arc.
+  `$start`* (int) - The start of the arc in degrees.
+  `$end`* (int) - The end of the arc in degrees.
+  `$color`* (string|array) - The arc color.
+  `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
 Returns a Image object.
 
@@ -366,8 +365,8 @@ Returns a Image object.
 
 Draws a border around the image.
 
-- `$color`* (string|array) - The border color.
-- `$thickness` (int) - The thickness of the border (default 1).
+  `$color`* (string|array) - The border color.
+  `$thickness` (int) - The thickness of the border (default 1).
 
 Returns a Image object.
 
@@ -375,9 +374,9 @@ Returns a Image object.
 
 Draws a single pixel dot.
 
-- `$x`* (int) - The x coordinate of the dot.
-- `$y`* (int) - The y coordinate of the dot.
-- `$color`* (string|array) - The dot color.
+  `$x`* (int) - The x coordinate of the dot.
+  `$y`* (int) - The y coordinate of the dot.
+  `$color`* (string|array) - The dot color.
 
 Returns a Image object.
 
@@ -385,12 +384,12 @@ Returns a Image object.
 
 Draws an ellipse.
 
-- `$x`* (int) - The x coordinate of the center.
-- `$y`* (int) - The y coordinate of the center.
-- `$width`* (int) - The ellipse width.
-- `$height`* (int) - The ellipse height.
-- `$color`* (string|array) - The ellipse color.
-- `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
+  `$x`* (int) - The x coordinate of the center.
+  `$y`* (int) - The y coordinate of the center.
+  `$width`* (int) - The ellipse width.
+  `$height`* (int) - The ellipse height.
+  `$color`* (string|array) - The ellipse color.
+  `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
 Returns a Image object.
 
@@ -398,7 +397,7 @@ Returns a Image object.
 
 Fills the image with a solid color.
 
-- `$color` (string|array) - The fill color.
+  `$color` (string|array) - The fill color.
 
 Returns a Image object.
 
@@ -406,12 +405,12 @@ Returns a Image object.
 
 Draws a line.
 
-- `$x1`* (int) - The x coordinate for the first point.
-- `$y1`* (int) - The y coordinate for the first point.
-- `$x2`* (int) - The x coordinate for the second point.
-- `$y2`* (int) - The y coordinate for the second point.
-- `$color` (string|array) - The line color.
-- `$thickness` (int) - The line thickness (default 1).
+  `$x1`* (int) - The x coordinate for the first point.
+  `$y1`* (int) - The y coordinate for the first point.
+  `$x2`* (int) - The x coordinate for the second point.
+  `$y2`* (int) - The y coordinate for the second point.
+  `$color` (string|array) - The line color.
+  `$thickness` (int) - The line thickness (default 1).
 
 Returns a Image object.
 
@@ -419,7 +418,7 @@ Returns a Image object.
 
 Draws a polygon.
 
-- `$vertices`* (array) - The polygon's vertices in an array of x/y arrays. Example:
+  `$vertices`* (array) - The polygon's vertices in an array of x/y arrays. Example:
 
   ```php
   [
@@ -429,8 +428,8 @@ Draws a polygon.
   ]
   ```
 
-- `$color`* (string|array) - The polygon color.
-- `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
+  `$color`* (string|array) - The polygon color.
+  `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
 Returns a Image object.
 
@@ -438,12 +437,12 @@ Returns a Image object.
 
 Draws a rectangle.
 
-- `$x1`* (int) - The upper left x coordinate.
-- `$y1`* (int) - The upper left y coordinate.
-- `$x2`* (int) - The bottom right x coordinate.
-- `$y2`* (int) - The bottom right y coordinate.
-- `$color`* (string|array) - The rectangle color.
-- `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
+  `$x1`* (int) - The upper left x coordinate.
+  `$y1`* (int) - The upper left y coordinate.
+  `$x2`* (int) - The bottom right x coordinate.
+  `$y2`* (int) - The bottom right y coordinate.
+  `$color`* (string|array) - The rectangle color.
+  `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
 Returns a Image object.
 
@@ -451,13 +450,13 @@ Returns a Image object.
 
 Draws a rounded rectangle.
 
-- `$x1`* (int) - The upper left x coordinate.
-- `$y1`* (int) - The upper left y coordinate.
-- `$x2`* (int) - The bottom right x coordinate.
-- `$y2`* (int) - The bottom right y coordinate.
-- `$radius`* (int) - The border radius in pixels.
-- `$color`* (string|array) - The rectangle color.
-- `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
+  `$x1`* (int) - The upper left x coordinate.
+  `$y1`* (int) - The upper left y coordinate.
+  `$x2`* (int) - The bottom right x coordinate.
+  `$y2`* (int) - The bottom right y coordinate.
+  `$radius`* (int) - The border radius in pixels.
+  `$color`* (string|array) - The rectangle color.
+  `$thickness` (int|string) - Line thickness in pixels or 'filled' (default 1).
 
 Returns a Image object.
 
@@ -467,8 +466,8 @@ Returns a Image object.
 
 Applies the blur filter.
 
-- `$type` (string) - The blur algorithm to use: 'selective', 'gaussian' (default 'gaussian').
-- `$passes` (int) - The number of time to apply the filter, enhancing the effect (default 1).
+  `$type` (string) - The blur algorithm to use: 'selective', 'gaussian' (default 'gaussian').
+  `$passes` (int) - The number of time to apply the filter, enhancing the effect (default 1).
 
 Returns a Image object.
 
@@ -476,7 +475,7 @@ Returns a Image object.
 
 Applies the brightness filter to brighten the image.
 
-- `$percentage`* (int) - Percentage to brighten the image (0 - 100).
+  `$percentage`* (int) - Percentage to brighten the image (0 - 100).
 
 Returns a Image object.
 
@@ -484,7 +483,7 @@ Returns a Image object.
 
 Applies the colorize filter.
 
-- `$color`* (string|array) - The filter color.
+  `$color`* (string|array) - The filter color.
 
 Returns a Image object.
 
@@ -492,7 +491,7 @@ Returns a Image object.
 
 Applies the contrast filter.
 
-- `$percentage`* (int) - Percentage to adjust (-100 - 100).
+  `$percentage`* (int) - Percentage to adjust (-100 - 100).
 
 Returns a Image object.
 
@@ -500,7 +499,7 @@ Returns a Image object.
 
 Applies the brightness filter to darken the image.
 
-- `$percentage`* (int) - Percentage to darken the image (0 - 100).
+  `$percentage`* (int) - Percentage to darken the image (0 - 100).
 
 Returns a Image object.
 
@@ -514,8 +513,8 @@ Returns a Image object.
 
 Applies the duotone filter to the image.
 
-- `$lightColor`* (string|array) - The lightest color in the duotone.
-- `$darkColor`* (string|array) - The darkest color in the duotone.
+  `$lightColor`* (string|array) - The lightest color in the duotone.
+  `$darkColor`* (string|array) - The darkest color in the duotone.
 
 Returns a Image object.
 
@@ -577,11 +576,11 @@ Returns a Image object.
 
 Adjusts a color by increasing/decreasing red/green/blue/alpha values independently.
 
-- `$color`* (string|array) - The color to adjust.
-- `$red`* (int) - Red adjustment (-255 - 255).
-- `$green`* (int) - Green adjustment (-255 - 255).
-- `$blue`* (int) - Blue adjustment (-255 - 255).
-- `$alpha`* (float) - Alpha adjustment (-1 - 1).
+  `$color` string|array - The color to adjust.
+  `$red` int - Red adjustment (-255 - 255).
+  `$green` int - Green adjustment (-255 - 255).
+  `$blue` int - Blue adjustment (-255 - 255).
+  `$alpha` float - Alpha adjustment (-1 - 1).
 
 Returns an RGBA color array.
 
@@ -589,8 +588,8 @@ Returns an RGBA color array.
 
 Darkens a color.
 
-- `$color`* (string|array) - The color to darken.
-- `$amount`* (int) - Amount to darken (0 - 255).
+  `$color` string|array - The color to darken.
+  `$amount` int - Amount to darken (0 - 255).
 
 Returns an RGBA color array.
 
@@ -598,8 +597,8 @@ Returns an RGBA color array.
 
 Extracts colors from an image like a human would do.™ This method requires the third-party library \League\ColorExtractor. If you're using Composer, it will be installed for you automatically.
 
-- `$count` (int) - The max number of colors to extract (default 5).
-- `$backgroundColor` (string|array) - By default any pixel with alpha value greater than zero will be discarded. This is because transparent colors are not perceived as is. For example, fully transparent black would be seen white on a white background. So if you want to take transparency into account, you have to specify a default background color.
+  `$count` int - The max number of colors to extract (default 5).
+  `$backgroundColor` string|array - By default any pixel with alpha value greater than zero will be discarded. This is because transparent colors are not perceived as is. For example, fully transparent black would be seen white on a white background. So if you want to take transparency into account, you have to specify a default background color.
 
 Returns an array of RGBA colors arrays.
 
@@ -607,8 +606,8 @@ Returns an array of RGBA colors arrays.
 
 Gets the RGBA value of a single pixel.
 
-- `$x`* (int) - The horizontal position of the pixel.
-- `$y`* (int) - The vertical position of the pixel.
+  `$x` int - The horizontal position of the pixel.
+  `$y` int - The vertical position of the pixel.
 
 Returns an RGBA color array or false if the x/y position is off the canvas.
 
@@ -616,8 +615,8 @@ Returns an RGBA color array or false if the x/y position is off the canvas.
 
 Lightens a color.
 
-- `$color`* (string|array) - The color to lighten.
-- `$amount`* (int) - Amount to darken (0 - 255).
+  `$color` string|array - The color to lighten.
+  `$amount` int - Amount to darken (0 - 255).
 
 Returns an RGBA color array.
 
@@ -625,7 +624,7 @@ Returns an RGBA color array.
 
 Normalizes a hex or array color value to a well-formatted RGBA array.
 
-- `$color`* (string|array) - A CSS color name, hex string, or an array [red, green, blue, alpha].
+  `$color` string|array - A CSS color name, hex string, or an array [red, green, blue, alpha].
 
 You can pipe alpha transparency through hex strings and color names. For example:
 
@@ -641,7 +640,7 @@ Image throws standard exceptions when things go wrong. You should always use a t
 ```php
 <?php
 try {
-  $image = new \Blazecore\Image();
+  $image = new \Ryantxr\Image();
   $image->load('image.jpeg');
   // ...
 } catch(Exception $err) {
@@ -654,7 +653,7 @@ To check for specific errors, compare `$err->getCode()` to the defined error con
 ```php
 <?php
 try {
-  $image = new \Blazecore\Image();
+  $image = new \Ryantxr\Image();
   $image->load('image.jpeg');
   // ...
 } catch(Exception $err) {
