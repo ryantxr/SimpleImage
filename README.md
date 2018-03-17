@@ -94,6 +94,14 @@ API tips:
 Makes a new object. If width and height are supplied then an 
 underlying image resource will be created.
 
+```php
+  // make an empty object
+  $object = new \Blazecore\Image;
+
+  // make a blank image of with certain dimensions
+  $object = new \Blazecore\Image(600, 400); // width=600, height=600
+```
+
 ### Loaders
 
 #### `fromDataUri($uri)`
